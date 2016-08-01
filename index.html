@@ -22,27 +22,62 @@ p<!doctype html>
 			  integrity="sha256-cCueBR6CsyA4/9szpPfrX3s49M9vUU5BgtiJj06wt/s="
 			  crossorigin="anonymous"></script>
     <script type="text/javascript">
+
+        function redraw(lat,lng) {
+          console.log('redraw',lat,lng);
+          map.setCenter({lat: lat, lng : lng, alt: 0})
+          marker.setPosition({lat: lat, lng : lng, alt: 0});
+          addPath(lat,lng);
+        }
+        var flightPlanCoordinates = [
+         // {lat: 37.772, lng: -122.214},
+        ];
+        
+
+        function addPath(lat,lng){
+          flightPlanCoordinates.push({lat:lat,lng:lng});
+             flightPath = new google.maps.Polyline({
+              path: flightPlanCoordinates,
+              geodesic: true,
+              strokeColor: '#FF0000',
+              strokeOpacity: 1.0,
+              strokeWeight: 2
+            });
+             flightPath.setMap(map);
+        }
+
         function initMap() {
 
          var locationPromise = getGeolocation();
          if(locationPromise){
            locationPromise.then(function(position){
-             console.log(position);
+             console.log('position',position);
              var mapDiv = document.getElementById('map');
              var myCenter=new google.maps.LatLng(position.coords.latitude,position.coords.longitude);
-             var map = new google.maps.Map(mapDiv, {
+             map = new google.maps.Map(mapDiv, {
                  center: myCenter,
-                 zoom: 8
+                 zoom: 20
              });
-             var marker=new google.maps.Marker({
+             marker=new google.maps.Marker({
               position:myCenter,
               });
-
+             addPath(position.coords.latitude,position.coords.longitude);
+            
              marker.setMap(map);
+
            })
          }
 
         }
+        var watchId = navigator.geolocation.watchPosition(function success(pos) {
+            var crd = pos.coords;
+
+            /*if (target.latitude === crd.latitude && target.longitude === crd.longitude) {
+              console.log('Congratulations, you reached the target');
+              navigator.geolocation.clearWatch(id);
+            }*/
+            redraw(crd.latitude,crd.longitude);
+          }, null, {enableHighAccuracy:true});
         //determine if the user's browser has location services enabled. If not, show a message
         function getGeolocation() {
             if(navigator.geolocation){
