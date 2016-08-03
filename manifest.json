@@ -1,20 +1,21 @@
 {
   "short_name": "
-  Toristry",
+  Touristry",
   "name": "Touristry - travel the world with our insights",
+  "background_color": "#bf392b",
   "icons": [
     {
-      "src": "launcher-icon-2x.png",
+      "src": "images/touristry-icon.png",
       "sizes": "96x96",
       "type": "image/png"
     },
     {
-      "src": "launcher-icon-3x.png",
+      "src": "images/touristry-icon.png",
       "sizes": "144x144",
       "type": "image/png"
     },
     {
-      "src": "launcher-icon-4x.png",
+      "src": "touristry-icon.png",
       "sizes": "192x192",
       "type": "image/png"
     }
