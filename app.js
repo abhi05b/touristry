@@ -4,6 +4,9 @@ var io = require('socket.io')(http);
 app.get('/', function(req, res){
   res.sendFile(__dirname + '/index.html');
 });
+app.get('/manifest.json', function(req, res){
+  res.sendFile(__dirname + '/manifest.json');
+});
 io.on('connection', function(socket){
   console.log('a user connected');
   socket.on('disconnect', function(){
